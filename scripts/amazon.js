@@ -64,13 +64,18 @@ innerHTML = productsHTML;
 document.querySelectorAll('.js-add-to-cart')
     .forEach((button) => {
         button.addEventListener('click',() => {
-            const productName = button.dataset
+            const productId = button.dataset
             .productId;
-
+            //Iterate through cart and checks if there is already
+            //an MatchingItem if yes save adds just int +=1 
+            //if no adds and item.productId into matchingItem
+            //for the first time. thats how we prevents to have 10
+            //products separted as quantity but we will have one 
+            // count of an quantity.
             let matchingItem;
 
             cart.forEach((item) => {
-                if(productName === item.productId) {
+                if(productId === item.productId) {
                     matchingItem = item;
 
                 }
@@ -80,12 +85,25 @@ document.querySelectorAll('.js-add-to-cart')
                 matchingItem.quantity += 1;
             } else {
                 cart.push({
-                    productId: productName,
+                    productId: productId,
                     quantity: 1
                 });
             }
+            // Calculate total quantity of the cart(will be different items
+            // not just when thats the difference also 
+            // between the code above.) using forEach
+            // Which iterates through the every item and save all
+            // the item (as int) in the variable cartQuantity
+            let cartQuantity = 0;
 
-            
-            console.log(cart);
+            cart.forEach((item) => {
+                cartQuantity += item.quantity;
+            });
+
+            // update the cart quantity number on webpage
+            // after clicking on the add to cart.
+            document.querySelector('.js-cart-quantity')
+                .innerHTML = cartQuantity
+
         })
     }); 

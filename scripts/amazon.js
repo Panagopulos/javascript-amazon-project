@@ -43,7 +43,7 @@ products.forEach((product) => {
 
           <div class="product-spacer"></div>
 
-          <div class="added-to-cart">
+          <div class="added-to-cart js-added-to-cart-${product.id}">
             <img src="images/icons/checkmark.png">
             Added
           </div>
@@ -61,10 +61,15 @@ console.log(productsHTML);
 document.querySelector('.js-products-grid').
 innerHTML = productsHTML;
 
+//Object where we will save timeoutId it let us save multiple timeout
+// id since we have multiple products.
+let addedMessageTimeoutId;
+
 document.querySelectorAll('.js-add-to-cart')
     .forEach((button) => {
         button.addEventListener('click',() => {
-            const productId = button.dataset.productId;
+          // destructured object!
+            const {productId} = button.dataset;
             //Iterate through cart and checks if there is already
             //an MatchingItem if yes save adds just int +=1 
             //if no adds an item.productId into matchingItem
@@ -80,16 +85,18 @@ document.querySelectorAll('.js-add-to-cart')
                 }
             });
             //DOM for <select> and also product.id
+            // We have also productId so it recognizes which product
+            //are we working with
             const selector = document.querySelector(`.js-quantity-selector-${productId}`);
-            const quantitySelector = Number(selector.value);
+            const quantity = Number(selector.value);
 
 
             if(matchingItem) {
-                matchingItem.quantity += quantitySelector;
+                matchingItem.quantity += quantity;
             } else {
                 cart.push({
-                    productId: productId,
-                    quantity: quantitySelector
+                    productId,    //we used shorthand method here.
+                    quantity
                 });
             }
             // Calculate total quantity of the cart(will be different items
@@ -106,7 +113,23 @@ document.querySelectorAll('.js-add-to-cart')
             // update the cart quantity number on webpage
             // after clicking on the add to cart.
             document.querySelector('.js-cart-quantity')
-                .innerHTML = cartQuantity
+                .innerHTML = cartQuantity;
 
-        })
+
+            const addedMessage = document.querySelector(`.js-added-to-cart-${productId}`);
+
+            addedMessage.classList.add('added-to-cart-visible');
+
+            setTimeout(() => {
+              if(addedMessageTimeoutId) {
+                clearTimeout(addedMessageTimeoutId);
+              }
+
+              const timeoutId = setTimeout(() => {
+                addedMessage.classList.remove('added-to-cart-visible');
+              },2000);
+
+              addedMessageTimeoutId = timeoutId;
+            });  
+        });
     }); 

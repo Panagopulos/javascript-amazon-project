@@ -656,5 +656,35 @@ const products = [
       "apparel",
       "mens"
     ]
+  },
+  {
+    id: "id1afdtert-4eg64",
+    image: "images/products/backpack.jpg",
+    name: "Army Desert Camo Backpack Ultra light",
+    rating: {
+      stars: 4.5,
+      count: 3157
+    },
+    priceCents: 12000,
+    keywords: [
+      "backpacks",
+      "hiking",
+      "travel"
+    ]
+  },
+  {
+    id: "id2itietuwtjwgf-596fas",
+    image: "images/products/umbrella.jpg",
+    name: "Givenchy Violet Secret umbrella",
+    rating: {
+      stars: 4.5,
+      count: 245
+    },
+    priceCents: 298000,
+    keywords: [
+      "umbrella",
+      "luxury brand",
+      "givenchy"
+    ]
   }
 ];

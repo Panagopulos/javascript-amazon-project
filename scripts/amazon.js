@@ -1,4 +1,4 @@
-import {cart} from '../data/cart.js';
+import {cart, addToCart} from '../data/cart.js';
 import {products} from '../data/products.js';
 
 
@@ -64,6 +64,40 @@ console.log(productsHTML);
 document.querySelector('.js-products-grid').
 innerHTML = productsHTML;
 
+//Updates the cart quantity,iterates through each item and 
+//saves it in variable as int.
+function updateCartQuantity() {
+  let cartQuantity = 0;
+
+            cart.forEach((cartItem) => {
+                cartQuantity += cartItem.quantity;
+            });
+
+            // update the cart quantity number on webpage
+            // after clicking on the add to cart.
+            document.querySelector('.js-cart-quantity')
+                .innerHTML = cartQuantity;
+
+}
+
+function iniciatetimeOut(productId) {
+  const addedMessage = document.querySelector(`.js-added-to-cart-${productId}`);
+
+  addedMessage.classList.add('added-to-cart-visible');
+
+  setTimeout(() => {
+    if(addedMessageTimeoutId) {
+      clearTimeout(addedMessageTimeoutId);
+    }
+
+    const timeoutId = setTimeout(() => {
+      addedMessage.classList.remove('added-to-cart-visible');
+    },2000);
+
+    addedMessageTimeoutId = timeoutId;
+  }); 
+}
+
 //Object where we will save timeoutId it let us save multiple timeout
 // id since we have multiple products.
 let addedMessageTimeoutId;
@@ -73,66 +107,11 @@ document.querySelectorAll('.js-add-to-cart')
         button.addEventListener('click',() => {
           // destructured object!
             const {productId} = button.dataset;
-            //Iterate through cart and checks if there is already
-            //an MatchingItem if yes save adds just int +=1 
-            //if no adds an item.productId into matchingItem
-            //for the first time. thats how we prevents to have 10
-            //products separted as quantity but we will have one 
-            // count of an quantity.
-            let matchingItem;
 
-            cart.forEach((item) => {
-                if(productId === item.productId) {
-                    matchingItem = item;
+            addToCart(productId);
+            updateCartQuantity();
+            iniciatetimeOut(productId);
 
-                }
-            });
-            //DOM for <select> and also product.id
-            // We have also productId so it recognizes which product
-            //are we working with
-            const selector = document.querySelector(`.js-quantity-selector-${productId}`);
-            const quantity = Number(selector.value);
-
-
-            if(matchingItem) {
-                matchingItem.quantity += quantity;
-            } else {
-                cart.push({
-                    productId,    //we used shorthand method here.
-                    quantity
-                });
-            }
-            // Calculate total quantity of the cart(will be different items
-            // not just when thats the difference also 
-            // between the code above.) using forEach
-            // Which iterates through the every item and save all
-            // the item (as int) in the variable cartQuantity
-            let cartQuantity = 0;
-
-            cart.forEach((item) => {
-                cartQuantity += item.quantity;
-            });
-
-            // update the cart quantity number on webpage
-            // after clicking on the add to cart.
-            document.querySelector('.js-cart-quantity')
-                .innerHTML = cartQuantity;
-
-
-            const addedMessage = document.querySelector(`.js-added-to-cart-${productId}`);
-
-            addedMessage.classList.add('added-to-cart-visible');
-
-            setTimeout(() => {
-              if(addedMessageTimeoutId) {
-                clearTimeout(addedMessageTimeoutId);
-              }
-
-              const timeoutId = setTimeout(() => {
-                addedMessage.classList.remove('added-to-cart-visible');
-              },2000);
-
-              addedMessageTimeoutId = timeoutId;
-            });  
+             
         });
     }); 

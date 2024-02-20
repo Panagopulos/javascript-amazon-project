@@ -1,4 +1,4 @@
-import {cart, addToCart} from '../data/cart.js';
+import {cart, addToCart, calculateCartQuantity} from '../data/cart.js';
 import {products} from '../data/products.js';
 import {formatCurrency} from './utils/money.js';
 
@@ -68,12 +68,8 @@ innerHTML = productsHTML;
 
 //Updates the cart quantity,iterates through each item and 
 //saves it in variable as int.
-export function updateCartQuantity() {
-  let cartQuantity = null;
-
-            cart.forEach((cartItem) => {
-                cartQuantity += cartItem.quantity;
-            });
+function updateCartQuantity() {
+  const cartQuantity = calculateCartQuantity();
 
             // update the cart quantity number on webpage
             // after clicking on the add to cart.

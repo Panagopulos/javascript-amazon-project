@@ -1,5 +1,7 @@
 //saves just the id which will then give us acces to the
 //rest of the information but we need to use products.js
+//Allso get the save from localStorage of the cart if there
+//is nothing it shows the product inserted manually
 export let cart = JSON.parse(localStorage.getItem('cart'));
 
 if(!cart) {
@@ -13,6 +15,8 @@ if(!cart) {
 }
 
 
+// Saves the cart insige local storage I then use it inside
+//"addToCart()" and "removeProduct()"
 function saveToStorage() {
     localStorage.setItem('cart', JSON.stringify(cart));
 }
@@ -49,6 +53,16 @@ export function addToCart(productId) {
   }
 
   saveToStorage();
+}
+
+export function calculateCartQuantity() {
+    let cartQuantity = 0;
+
+    cart.forEach((cartItem) => {
+        cartQuantity += cartItem.quantity
+    });
+
+    return cartQuantity;
 }
 
 export function removeFromCart(productId) {

@@ -1,7 +1,8 @@
-import {cart} from '../data/cart.js';
+import {cart, removeFromCart} from '../data/cart.js';
 import {products} from '../data/products.js';
 import {formatCurrency} from './utils/money.js';
 
+//empty accu variable.
 let cartSummaryHTML = '';
 
 //Takes the item which is added to card by it's id
@@ -19,7 +20,7 @@ cart.forEach((cartItem) => {
       matchingProduct = product;
     }
   });
-
+  //accu promenna ve do které přidáváme html
   cartSummaryHTML  +=
   `
   <div class="cart-item-container">
@@ -36,7 +37,7 @@ cart.forEach((cartItem) => {
             ${matchingProduct.name}
           </div>
           <div class="product-price">
-              $${formatCurrency(matchingProduct.priceCents)}
+              $${formatCurrency(matchingProduct.priceCents)} 
           </div>
           <div class="product-quantity">
             <span>
@@ -45,7 +46,8 @@ cart.forEach((cartItem) => {
             <span class="update-quantity-link link-primary">
               Update
             </span>
-            <span class="delete-quantity-link link-primary">
+            <span class="delete-quantity-link link-primary
+            js-delete-link" data-product-id="${matchingProduct.id}">
               Delete
             </span>
           </div>
@@ -99,8 +101,15 @@ cart.forEach((cartItem) => {
     </div>
   `;
 })
-
+// DOM which takes class created in html and we put generated
+//html inside 
 document.querySelector('.js-order-summary')
   .innerHTML = cartSummaryHTML;
 
-console.log(cartSummaryHTML);
+document.querySelectorAll('.js-delete-link')
+  .forEach((link) => {
+    link.addEventListener('click', () => {
+      const productId = link.dataset.productId;
+      removeFromCart(productId);
+    });
+  });

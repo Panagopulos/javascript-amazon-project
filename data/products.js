@@ -1,3 +1,5 @@
+//Array of products which are inicilized as objects
+//we can acces this array with properties of forEach and .Notation
 export const products = [
   {
     id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",

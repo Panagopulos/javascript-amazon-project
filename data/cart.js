@@ -1,6 +1,6 @@
 //saves just the id which will then give us acces to the
 //rest of the information but we need to use products.js
-export const cart = [{
+export let cart = [{
     productId: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
     quantity: 2,
 }, {
@@ -39,4 +39,16 @@ export function addToCart(productId) {
           quantity
       });
   }
+}
+
+export function removeFromCart(productId) {
+    const newCart = []
+
+    cart.forEach((cartItem) => {
+        if (cartItem.productId !== producId) {
+            newCart.push(cartItem);
+        }
+    });
+
+    cart = newCart;
 }

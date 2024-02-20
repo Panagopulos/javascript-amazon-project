@@ -102,19 +102,42 @@ cart.forEach((cartItem) => {
     </div>
   `;
 })
+
+updateCartQuantity();
+//Updates the Checkout header which shows how many items 
+//are in the checkout
+function updateCartQuantity() {
+let cartQuantity = 0;
+
+cart.forEach((cartItem) => {
+  cartQuantity += cartItem.quantity;
+});
+
+document.querySelector('.js-total-cart-qua')
+  .innerHTML = `${cartQuantity} items`
+};
+
+
 // DOM which takes class created in html and we put generated
 //html inside 
 document.querySelector('.js-order-summary')
   .innerHTML = cartSummaryHTML;
 
+
+// DOM which deletes the product from the checkout section
+//by clicking on <span> "delete" using addeventListener 
+// and including function from cart which we imported here.
+//reason to have it in cart that changes of cart should be in
+// cart section. While changes of checkout here.
 document.querySelectorAll('.js-delete-link')
   .forEach((link) => {
     link.addEventListener('click', () => {
       const productId = link.dataset.productId;
       removeFromCart(productId);
+      updateCartQuantity();
 
      const container = document.querySelector(
         `.js-cart-item-container-${productId}`);
-        container.remove();
+          container.remove();
     });
   });

@@ -68,8 +68,8 @@ innerHTML = productsHTML;
 
 //Updates the cart quantity,iterates through each item and 
 //saves it in variable as int.
-function updateCartQuantity() {
-  let cartQuantity = 0;
+export function updateCartQuantity() {
+  let cartQuantity = null;
 
             cart.forEach((cartItem) => {
                 cartQuantity += cartItem.quantity;
@@ -99,7 +99,7 @@ function iniciatetimeOut(productId) {
     addedMessageTimeoutId = timeoutId;
   }); 
 }
-
+updateCartQuantity();
 //Object where we will save timeoutId it let us save multiple timeout
 // id since we have multiple products.
 let addedMessageTimeoutId;

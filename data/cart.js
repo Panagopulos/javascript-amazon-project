@@ -54,7 +54,8 @@ export function addToCart(productId) {
 
   saveToStorage();
 }
-
+//Iterates through all the items in the cart and saves it in variable
+//cartQuantity
 export function calculateCartQuantity() {
     let cartQuantity = 0;
 
@@ -64,7 +65,12 @@ export function calculateCartQuantity() {
 
     return cartQuantity;
 }
-
+//Iterates through all the items in the cart pick the param productId
+//which we add in the checkout and if it is not the param Id
+// (the one we want to remove is the param Id) it will add it in
+// the newCart array which is then pushed to the main cart.So
+// we dont add the item we inted to remove and its removed becouse¨
+// of that
 export function removeFromCart(productId) {
     const newCart = [];
 
@@ -76,5 +82,22 @@ export function removeFromCart(productId) {
 
     cart = newCart;
 
+    saveToStorage();
+}
+// function which iterates through cart find the matching item and
+// initialize newQuantity which will be assigned in checkout.js also
+// this function is exported in checkout.js
+export function updateQuantity(productId,newQuantity) {
+    let matchingItem;
+
+    cart.forEach((cartItem) => {
+        if(productId === cartItem.productId) {
+            matchingItem = cartItem;
+        }
+    });
+    if(matchingItem) {
+    matchingItem.quantity = newQuantity; }
+    
+    
     saveToStorage();
 }

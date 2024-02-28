@@ -1,3 +1,15 @@
+export function getProduct(productId) {
+  let matchingProduct;
+
+  products.forEach((product) => {
+    if(product.id === productId) {
+      matchingProduct = product;
+    }
+  });
+  
+  return matchingProduct;
+}
+
 //Array of products which are inicilized as objects
 //we can acces this array with properties of forEach and .Notation
 export const products = [

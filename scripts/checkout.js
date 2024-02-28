@@ -7,6 +7,10 @@ const today = dayjs();
 const deliveryDate = today.add(7, 'days');
 console.log(deliveryDate.format('dddd, MMMM D'));
 //empty accu variable.
+
+function renderOrderSummary() {
+
+
 let cartSummaryHTML = '';
 
 //Takes the item which is added to card by it's id
@@ -48,7 +52,7 @@ cart.forEach((cartItem) => {
   cartSummaryHTML  +=
   `
   <div class="cart-item-container
-   js-cart-item-container-${matchingProduct.id}">
+  js-cart-item-container-${matchingProduct.id}">
       <div class="delivery-date">
         Delivery date: ${dateString}
       </div>
@@ -69,7 +73,7 @@ cart.forEach((cartItem) => {
               Quantity: <span class="quantity-label js-quantity-label-${matchingProduct.id}">${cartItem.quantity}</span>
             </span>
             <span class="update-quantity-link link-primary
-             js-update-link" data-product-id="${matchingProduct.id}">
+            js-update-link" data-product-id="${matchingProduct.id}">
               Update
             </span>
             <input class="quantity-input js-quantity-input-${matchingProduct.id}">
@@ -111,10 +115,10 @@ function deliveryOptionsHTML(matchingProduct,cartItem) {
 
         const isChecked = deliveryOption.id === cartItem.deliveryOptionId;
 
-       html +=`
-       <div class="delivery-option js-delivery-option"
-       data-product-id="${matchingProduct.id}"
-       data-delivery-option-id="${deliveryOption.id}">
+      html +=`
+      <div class="delivery-option js-delivery-option"
+      data-product-id="${matchingProduct.id}"
+      data-delivery-option-id="${deliveryOption.id}">
       <input type="radio"
         ${isChecked ? 'checked' : ''}
         class="delivery-option-input"
@@ -167,7 +171,7 @@ document.querySelectorAll('.js-delete-link')
       removeFromCart(productId);
       updateCartQuantity();
 
-     const container = document.querySelector(
+    const container = document.querySelector(
         `.js-cart-item-container-${productId}`);
           container.remove();
     });
@@ -199,19 +203,19 @@ document.querySelectorAll('.js-delete-link')
         }
       
 
-         const changeQuantity = document.querySelector(`.js-quantity-input-${productId}`);
+        const changeQuantity = document.querySelector(`.js-quantity-input-${productId}`);
 
         const newQuantity = Number(changeQuantity.value);
 
         updateQuantity(productId, newQuantity);
 
-         const container = document.querySelector(
+        const container = document.querySelector(
           `.js-cart-item-container-${productId}`);
           container.classList.remove('is-editing-quantity');
 
         const quantityLabel = document.querySelector(`.js-quantity-label-${productId}`);
         
-       quantityLabel.innerHTML = newQuantity;
+      quantityLabel.innerHTML = newQuantity;
 
         updateCartQuantity();
         
@@ -223,5 +227,9 @@ document.querySelectorAll('.js-delete-link')
       element.addEventListener('click', () => {
         const {productId, deliveryOptionId} = element.dataset;
         updateDeliveryOption(productId, deliveryOptionId);
+        renderOrderSummary();
       });
     });
+  }
+
+  renderOrderSummary();

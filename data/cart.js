@@ -1,8 +1,15 @@
-//saves just the id which will then give us acces to the
+ //saves just the id which will then give us acces to the
 //rest of the information but we need to use products.js
 //Allso get the save from localStorage of the cart if there
 //is nothing it shows the product inserted manually
-export let cart = JSON.parse(localStorage.getItem('cart'));
+//function loadFromStorage is created to rerun the function 
+//so the test will pass.
+export let cart;
+
+loadFromStorage();
+
+export function loadFromStorage() {
+    cart = JSON.parse(localStorage.getItem('cart'));
 
 if(!cart) {
     cart = [{
@@ -14,6 +21,8 @@ if(!cart) {
         quantity: 1,
         deliveryOptionId: '2'
     }];
+}
+
 }
 
 

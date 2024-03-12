@@ -183,6 +183,10 @@ document.querySelectorAll('.js-delete-link')
       link.addEventListener('click',() => {
         const productId = link.dataset.productId;
 
+        const changeQuantity = document.querySelector(`.js-quantity-input-${productId}`);
+
+        const newQuantity = Number(changeQuantity.value);
+
         // we have to call this first before we call "const container" becouse
         // if the new quantity is not valid,we should¨
         // return early and NOT run the rest of the code.
@@ -191,11 +195,6 @@ document.querySelectorAll('.js-delete-link')
           return;
         }
       
-
-        const changeQuantity = document.querySelector(`.js-quantity-input-${productId}`);
-
-        const newQuantity = Number(changeQuantity.value);
-
         updateQuantity(productId, newQuantity);
 
         const container = document.querySelector(
